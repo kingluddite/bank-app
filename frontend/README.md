@@ -46,4 +46,35 @@ navigate('/where/you/want/to/go')
     }
   }, [navigate, userData.user]);
 
+  ```
+
+## matched leaf warning
+* In V6, you can't use the component prop anymore. It was replaced in favor of element
+* https://stackoverflow.com/questions/69854011/matched-leaf-route-at-location-does-not-have-an-element
+
 ```
+<Route path="/" element={<Home />}></Route>
+```
+
+* So it becomes
+
+```
+// MORE CODE
+
+  return (
+    <BrowserRouter>
+      <UserContext.Provider value={{ userData, setUserData }}>
+        <Header />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </UserContext.Provider>
+    </BrowserRouter>
+  );
+
+// MORE CODE
+```
+
+
