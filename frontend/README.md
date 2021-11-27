@@ -29,3 +29,21 @@ import { useNavigate } from 'react-router-dom';
 const navigate = useNavigate();
 navigate('/home');
 ```
+
+* history used push
+* useNavigate uses:
+
+```
+const navigate = useNavigate();
+navigate('/where/you/want/to/go')
+```
+
+## useEffect dependencies
+```
+  useEffect(() => {
+    if (!userData.user) {
+      navigate('/login');
+    }
+  }, [navigate, userData.user]);
+
+```
