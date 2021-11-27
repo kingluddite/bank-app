@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UserContext from './context/userContext';
-import Header from './components/Header';
-import Home from './components/Home';
+import Header from './components/layout/Header';
+import Home from './components/pages/Home';
 
 function App() {
   const [userData, setUserData] = useState({
