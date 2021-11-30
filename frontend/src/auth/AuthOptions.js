@@ -9,6 +9,8 @@ function AuthOptions() {
   const login = () => navigate('/login');
   const logout = () => {
     setUserData({
+      // I did this to stop page refresh from making me login in again
+      // REMINDER: remove in production
       token: undefined,
       user: undefined,
     });
