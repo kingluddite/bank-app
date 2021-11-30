@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
+import Todos from '../Todos';
 
 function Home() {
   const { userData } = useContext(UserContext);
@@ -15,7 +16,10 @@ function Home() {
   return (
     <div>
       {userData.user ? (
-        <h1>Welcome {userData.user.displayName}</h1>
+        <>
+          <h1>Welcome {userData.user.displayName}</h1>
+          <Todos />
+        </>
       ) : (
         <>
           <h2>You are not logged in</h2>
