@@ -77,4 +77,5 @@ navigate('/where/you/want/to/go')
 // MORE CODE
 ```
 
-
+## Todos
+* [youtube tutorial](https://www.youtube.com/watch?v=X__rLNfTsLg) (1:05)
