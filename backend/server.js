@@ -29,6 +29,15 @@ const AltUser = mongoose.model('AltUser', altUserSchema);
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
+  const altUser = await AltUser.findOne({ username }).exec();
+  if (altUser) {
+    res.status(500);
+    res.json({
+      message: 'user already exists',
+    });
+    return;
+  }
+
   await AltUser.create({ username, password });
 
   res.json({
