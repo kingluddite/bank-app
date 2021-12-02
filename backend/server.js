@@ -22,7 +22,7 @@ mongoose.connect(
   }
 );
 
-app.get('/', (req, res) => {
+app.post('/register', (req, res) => {
   res.send('works');
 });
 
