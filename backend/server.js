@@ -2,6 +2,7 @@ const cors = require('cors');
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const db = require('./config/connection');
 
 // set up express
 const app = express();
@@ -10,17 +11,13 @@ app.use(cors());
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(
-  process.env.MONGODB_URI,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err) => {
-    if (err) throw err;
-    console.log('MongoDB connection established');
-  }
-);
+// set up routes
+// test a simple get route to the home page
+// app.get('/', (req, res) => {
+//   res.send('home page works');
+// });
+// app.use('/users', require('./routes/users'));
+// app.use('/todos', require('./routes/todos'));
 
 // create an alternative user
 // just to play around with alternate way to authenticate
@@ -39,6 +36,10 @@ app.post('/register', async (req, res) => {
   });
 });
 
-app.use('/users', require('./routes/users'));
+// app.use('/users', require('./routes/users'));
 
-app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
+db.once('open', () => {
+  app.listen(PORT, () => {
+    console.log(`The server has started on port: ${PORT}`);
+  });
+});
