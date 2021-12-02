@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 4000;
 // create an alternative user
 // just to play around with alternate way to authenticate
 const altUserSchema = new mongoose.Schema({
-  name: String,
+  username: String,
   password: String,
 });
 const AltUser = mongoose.model('AltUser', altUserSchema);
