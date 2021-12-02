@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // set up express
 const app = express();
-app.use(express.json());
+// app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 4000;
@@ -23,7 +23,11 @@ mongoose.connect(
 );
 
 app.post('/register', (req, res) => {
-  res.send('works');
+  const { username, password } = req.body;
+  res.json({
+    username,
+    password,
+  });
 });
 
 app.use('/users', require('./routes/users'));
