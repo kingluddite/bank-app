@@ -22,11 +22,20 @@ mongoose.connect(
   }
 );
 
-app.post('/register', (req, res) => {
+// create an alternative user
+// just to play around with alternate way to authenticate
+const altUserSchema = new mongoose.Schema({
+  name: String,
+  password: String,
+});
+const AltUser = mongoose.model('AltUser', altUserSchema);
+
+app.post('/register', async (req, res) => {
   const { username, password } = req.body;
+  await AltUser.create({ username, password });
+
   res.json({
-    username,
-    password,
+    message: 'success',
   });
 });
 
