@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledError = styled.span`
@@ -17,6 +18,7 @@ function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const register = (e) => {
     e.preventDefault();
@@ -31,7 +33,9 @@ function Register() {
       }),
     })
       .then(handleErrors)
-      .then(() => {})
+      .then(() => {
+        navigate('/');
+      })
       .catch((error) => {
         setError(error.message);
       });
