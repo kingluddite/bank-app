@@ -45,6 +45,24 @@ app.post('/register', async (req, res) => {
   });
 });
 
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const altUser = await AltUser.findOne({ username }).exec();
+  if (!altUser || altUser.password !== password) {
+    res.status(401); // https://stackoverflow.com/questions/32752578/whats-the-appropriate-http-status-code-to-return-if-a-user-tries-logging-in-wit#:~:text=The%20401%20(Unauthorized)%20status%20code,credentials%20for%20the%20target%20resource.
+    res.json({
+      message: 'invalid login',
+    });
+    return;
+  }
+
+  await AltUser.create({ username, password });
+
+  res.json({
+    message: 'success',
+  });
+});
+
 // app.use('/users', require('./routes/users'));
 
 db.once('open', () => {

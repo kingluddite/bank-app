@@ -2,18 +2,11 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CredentialsContext } from '../App';
+import { handleErrors } from '../utils/handleErrors';
 
 const StyledError = styled.span`
   color: red;
 `;
-
-const handleErrors = async (response) => {
-  if (!response.ok) {
-    const { message } = await response.json();
-    throw Error(message);
-  }
-  return response.json();
-};
 
 function Register() {
   const [username, setUsername] = useState('');
