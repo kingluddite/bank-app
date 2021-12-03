@@ -8,7 +8,11 @@ import Login from './pages/Login';
 export const CredentialsContext = React.createContext();
 
 function App() {
-  const credentialsState = useState(null);
+  // tmp credendentials to avoid refresh losing credential's state
+  const credentialsState = useState({
+    username: 'pip',
+    password: '123456',
+  });
 
   return (
     <div className="App">
