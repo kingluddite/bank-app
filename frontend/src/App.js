@@ -1,17 +1,24 @@
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Welcome';
+import Welcome from './pages/Welcome';
 import Register from './pages/Register';
 
+export const CredentialsContext = React.createContext();
+
 function App() {
+  const credentialsState = useState(null);
+
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/register" element={<Register />} />
-        </Routes>
-      </Router>
+      <CredentialsContext.Provider value={credentialsState}>
+        <Router>
+          <Routes>
+            <Route exact path="/" element={<Welcome />} />
+            <Route exact path="/register" element={<Register />} />
+          </Routes>
+        </Router>
+      </CredentialsContext.Provider>
     </div>
   );
 }
