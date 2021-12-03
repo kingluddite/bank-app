@@ -9,7 +9,7 @@ function Welcome() {
   return (
     <div>
       <h1>Welcome {credentials && credentials.username}</h1>
-      <Link to="/register">Register </Link>
+      {!credentials && <Link to="/register">Register </Link>}
     </div>
   );
 }

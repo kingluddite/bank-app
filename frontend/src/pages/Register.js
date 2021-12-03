@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { CredentialsContext } from '../App';
 
 const StyledError = styled.span`
   color: red;
@@ -19,6 +20,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [, setCredentials] = useContext(CredentialsContext);
 
   const register = (e) => {
     e.preventDefault();
@@ -34,6 +36,10 @@ function Register() {
     })
       .then(handleErrors)
       .then(() => {
+        setCredentials({
+          username,
+          password,
+        });
         navigate('/');
       })
       .catch((error) => {
