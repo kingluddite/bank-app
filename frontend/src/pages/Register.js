@@ -1,8 +1,22 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
+
+const StyledError = styled.span`
+  color: red;
+`;
+
+const handleErrors = async (response) => {
+  if (!response.ok) {
+    const { message } = await response.json();
+    throw Error(message);
+  }
+  return response.json();
+};
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const register = (e) => {
     e.preventDefault();
@@ -15,13 +29,18 @@ function Register() {
         username,
         password,
       }),
-    });
-    // console.log('register works');
+    })
+      .then(handleErrors)
+      .then(() => {})
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
     <>
       <h1>Register</h1>
+      {!!error && <StyledError>{error}</StyledError>}
       <form onSubmit={register}>
         <input
           onChange={(e) => setUsername(e.target.value)}
