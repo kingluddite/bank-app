@@ -114,6 +114,22 @@ app.post('/todos', async (req, res) => {
   res.json(todos);
 });
 
+app.get('/todos', async (req, res) => {
+  const { authorization } = req.headers;
+  const [, token] = authorization.split(' ');
+  const [username, password] = token.split(':');
+  const altUser = await AltUser.findOne({ username }).exec();
+  if (!altUser || altUser.password !== password) {
+    res.status(401);
+    res.json({
+      message: 'invalid access',
+    });
+    return;
+  }
+  const { todos } = await AltTodos.findOne({ userId: altUser._id }).exec();
+  res.json(todos);
+});
+
 // app.use('/users', require('./routes/users'));
 
 db.once('open', () => {

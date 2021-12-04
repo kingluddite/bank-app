@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { CredentialsContext } from '../App';
 
 function Todos() {
@@ -21,6 +21,18 @@ function Todos() {
       body: JSON.stringify(newTodos),
     }).then(() => {});
   };
+
+  useEffect(() => {
+    fetch(`http://localhost:4000/todos`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${credentials.username}:${credentials.password}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((todos) => setTodos(todos));
+  }, [credentials.username, credentials.password]);
 
   const addTodo = (e) => {
     e.preventDefault();
