@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CredentialsContext } from '../App';
 
 function Todos() {
   const [todos, setTodos] = useState([
@@ -8,6 +9,18 @@ function Todos() {
     },
   ]);
   const [todoText, setTodoText] = useState('');
+  const [credentials] = useContext(CredentialsContext);
+
+  const persist = (newTodos) => {
+    fetch(`http://localhost:4000/todos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${credentials.username}:${credentials.password}`,
+      },
+      body: JSON.stringify(newTodos),
+    }).then(() => {});
+  };
 
   const addTodo = (e) => {
     e.preventDefault();
@@ -15,8 +28,10 @@ function Todos() {
     if (!todoText) return;
     // create a new todo
     const newTodo = { checked: false, text: todoText };
-    setTodos([...todos, newTodo]);
+    const newTodos = [...todos, newTodo];
+    setTodos(newTodos);
     setTodoText('');
+    persist(newTodos);
   };
 
   const toggleTodo = (index) => {
