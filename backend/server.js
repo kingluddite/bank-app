@@ -63,6 +63,12 @@ app.post('/login', async (req, res) => {
   });
 });
 
+app.post('/todos', (req, res) => {
+  // let's test "hitting" this endpoint
+  // use a tool like Postman or Insomnia to test post API calls
+  res.send('todos endpoint hit');
+});
+
 // app.use('/users', require('./routes/users'));
 
 db.once('open', () => {
