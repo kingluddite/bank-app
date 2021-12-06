@@ -6,11 +6,12 @@ function Todos() {
     {
       id: 1,
       text: 'yo homee',
+      checked: false,
     },
   ]);
   const [todoText, setTodoText] = useState('');
   const [credentials] = useContext(CredentialsContext);
-
+  const [filter, setFilter] = useState('uncomplete');
   const persist = (newTodos) => {
     fetch(`http://localhost:4000/todos`, {
       method: 'POST',
@@ -50,16 +51,31 @@ function Todos() {
     // get all todos
     const newTodoList = [...todos];
     // toggle opposite checked value
-    newTodoList[index].checked = !newTodoList[index];
+    newTodoList[index].checked = !newTodoList[index].checked;
     setTodos(newTodoList);
+    persist(newTodoList);
+  };
+
+  const getTodos = () => {
+    return todos;
+  };
+
+  const changeFilter = (newFilter) => {
+    console.log('here!', newFilter);
+    setFilter(newFilter);
   };
 
   return (
     <div>
-      {todos.map((todo, index) => (
+      <select onChange={(e) => changeFilter(e.target.value)}>
+        <option value="completed">Completed</option>
+        <option value="uncomplete">Uncomplete</option>
+      </select>
+      {getTodos().map((todo, index) => (
         <div key={index}>
           <input
             id="chkbx-task"
+            checked={todo.checked}
             onChange={() => toggleTodo(index)}
             type="checkbox"
           />
