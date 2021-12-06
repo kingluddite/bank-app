@@ -10,10 +10,7 @@ export const CredentialsContext = React.createContext();
 function App() {
   // tmp credendentials to avoid refresh losing credential's state
   // TODO: fix this with localStorage - https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/
-  const credentialsState = useState({
-    username: 'pip',
-    password: '123456',
-  });
+  const credentialsState = useState(null);
 
   return (
     <div className="App">

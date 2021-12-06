@@ -1,17 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CredentialsContext } from '../App';
+import { v4 as uuidv4 } from 'uuid';
 
 function Todos() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      text: 'yo homee',
-      checked: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
   const [todoText, setTodoText] = useState('');
   const [credentials] = useContext(CredentialsContext);
-  const [filter, setFilter] = useState('uncomplete');
+  const [filter, setFilter] = useState('uncompleted');
   const persist = (newTodos) => {
     fetch(`http://localhost:4000/todos`, {
       method: 'POST',
@@ -40,46 +35,50 @@ function Todos() {
     // prevent empty tasks
     if (!todoText) return;
     // create a new todo
-    const newTodo = { checked: false, text: todoText };
+    const newTodo = { id: uuidv4(), checked: false, text: todoText };
     const newTodos = [...todos, newTodo];
     setTodos(newTodos);
     setTodoText('');
     persist(newTodos);
   };
 
-  const toggleTodo = (index) => {
+  const toggleTodo = (id) => {
     // get all todos
     const newTodoList = [...todos];
     // toggle opposite checked value
-    newTodoList[index].checked = !newTodoList[index].checked;
+    const todoItem = newTodoList.find((todo) => todo.id === id);
+    console.log(todoItem);
+    todoItem.checked = !todoItem.checked;
     setTodos(newTodoList);
     persist(newTodoList);
   };
 
   const getTodos = () => {
-    return todos;
+    // if filter is marked as completed than return only one's that are checked
+    return todos.filter((todo) =>
+      filter === 'completed' ? todo.checked : !todo.checked
+    );
   };
 
   const changeFilter = (newFilter) => {
-    console.log('here!', newFilter);
     setFilter(newFilter);
   };
 
   return (
     <div>
-      <select onChange={(e) => changeFilter(e.target.value)}>
+      <select value={filter} onChange={(e) => changeFilter(e.target.value)}>
         <option value="completed">Completed</option>
-        <option value="uncomplete">Uncomplete</option>
+        <option value="uncompleted">Uncomplete</option>
       </select>
-      {getTodos().map((todo, index) => (
-        <div key={index}>
+
+      {getTodos().map((todo) => (
+        <div key={todo.id}>
           <input
-            id="chkbx-task"
             checked={todo.checked}
-            onChange={() => toggleTodo(index)}
+            onChange={() => toggleTodo(todo.id)}
             type="checkbox"
           />
-          <label htmlFor="chkbx-task">{todo.text}</label>
+          <label>{todo.text}</label>
         </div>
       ))}
       <br />

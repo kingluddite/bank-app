@@ -11,6 +11,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 4000;
 
+const ObjectId = require('mongoose').Types.ObjectId;
 // set up routes
 // test a simple get route to the home page
 // app.get('/', (req, res) => {
@@ -30,10 +31,11 @@ const altUserSchema = new mongoose.Schema({
 const AltUser = mongoose.model('AltUser', altUserSchema);
 
 const altTodosSchema = new mongoose.Schema({
-  userId: String,
+  userId: mongoose.Schema.ObjectId,
   todos: [
     {
-      check: Boolean,
+      id: String,
+      checked: Boolean,
       text: String,
     },
   ],
@@ -111,7 +113,7 @@ app.post('/todos', async (req, res) => {
     todos.todos = todosItems;
     await todos.save();
   }
-  res.json(todos);
+  res.json(todosItems);
 });
 
 app.get('/todos', async (req, res) => {
@@ -131,7 +133,7 @@ app.get('/todos', async (req, res) => {
 });
 
 // app.use('/users', require('./routes/users'));
-
+db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
   app.listen(PORT, () => {
     console.log(`The server has started on port: ${PORT}`);
