@@ -22,6 +22,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 // create an alternative user
 // just to play around with alternate way to authenticate
+
 // Models
 const altUserSchema = new mongoose.Schema({
   username: String,
@@ -43,9 +44,11 @@ const altTodosSchema = new mongoose.Schema({
 
 const AltTodos = mongoose.model('AltTodos', altTodosSchema);
 
+// Routes
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
   const altUser = await AltUser.findOne({ username }).exec();
+
   if (altUser) {
     res.status(500);
     res.json({
@@ -80,11 +83,12 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/todos', async (req, res) => {
-  // First - test hitting endpoing
+  // First - test hitting endpoint
   // (use a tool like Postman or Insomnia to test post API calls)
   // res.send('todos endpoint hit');
   // Second - get the username and password with some JavaScript ninja skills :)
   // 1) grab what in authorization from the request's headers
+  // console.log(req.headers);
   const { authorization } = req.headers;
   // console.log(authorization); // (will output this) Basic pip:123456
   // 2) split the items by the space and store the second part in the variable token
@@ -117,6 +121,7 @@ app.post('/todos', async (req, res) => {
 });
 
 app.get('/todos', async (req, res) => {
+  // console.log(req.headers);
   const { authorization } = req.headers;
   const [, token] = authorization.split(' ');
   const [username, password] = token.split(':');

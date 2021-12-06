@@ -7,6 +7,7 @@ function Todos() {
   const [todoText, setTodoText] = useState('');
   const [credentials] = useContext(CredentialsContext);
   const [filter, setFilter] = useState('uncompleted');
+
   const persist = (newTodos) => {
     fetch(`http://localhost:4000/todos`, {
       method: 'POST',
