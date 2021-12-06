@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CredentialsContext } from '../App';
 import { handleErrors } from '../utils/handleErrors';
@@ -43,6 +43,7 @@ function Register() {
   return (
     <>
       <h1>Register</h1>
+      <Link to="/">Home</Link>
       {!!error && <StyledError>{error}</StyledError>}
       <form onSubmit={register}>
         <input

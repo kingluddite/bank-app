@@ -128,8 +128,13 @@ app.get('/todos', async (req, res) => {
     });
     return;
   }
-  const { todos } = await AltTodos.findOne({ userId: altUser._id }).exec();
-  res.json(todos);
+  // can't destructure if null so we grab it first
+  const todos = await AltTodos.findOne({ userId: altUser._id }).exec();
+  // then we make sure it exists
+  if (todos) {
+    // and then we return it
+    res.json(todos.todos);
+  }
 });
 
 // app.use('/users', require('./routes/users'));
